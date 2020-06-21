@@ -8,15 +8,11 @@ Step 3. Store the info or Do something else with the info
 
 */
 
-const axios = require('axios'); // request module
 const cheerio = require('cheerio'); // html parse module
 
-// url to scrape
-const url = 'http://books.toscrape.com/';
-
-
 // grab the page with axios
-const getPage = async () => {
+const axios = require('axios');
+const getPage = async (url) => {
 	try {
 		const page = await axios(url);
 		return page.data;
@@ -37,7 +33,6 @@ const getPage = async () => {
 // 	}
 // }
 
-
 // parse the html with cheerio
 const parseHTML = (html) => {
 	// load page into cheerio
@@ -55,9 +50,11 @@ const parseHTML = (html) => {
 	return results;
 }
 
+// url to scrape
+const booksPage = 'http://books.toscrape.com/';
 
 // main program
 (async () => {
-	const myPage = await getPage();
-	console.log(parseHTML(myPage));
+	let myPage = await getPage(booksPage);
+	console.log(myPage);
 })()
