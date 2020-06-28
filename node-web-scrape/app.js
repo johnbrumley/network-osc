@@ -1,4 +1,4 @@
-// scraping test (right now using axios, but could also use requests or got)
+// Basic Web Scrape using Axios (or Got) and Cheerio
 
 /*
 
@@ -8,10 +8,11 @@ Step 3. Store the info or Do something else with the info
 
 */
 
+const axios = require('axios'); // grab the page with axios
 const cheerio = require('cheerio'); // html parse module
+const fs = require('fs');
 
-// grab the page with axios
-const axios = require('axios');
+// function for retrieving the page 
 const getPage = async (url) => {
 	try {
 		const page = await axios(url);
@@ -50,14 +51,29 @@ const parseHTML = (html) => {
 	return results;
 }
 
+const writeToFile = (dataArray, fileName) => {
+	const stringToWrite = dataArray.join();
+	fs.writeFile(fileName, stringToWrite, err => {
+		if (err) {
+			return console.log(err);
+		}
+
+		console.log('file written!');
+	});
+}
+
 // url to scrape
 const booksPage = 'http://books.toscrape.com/';
 
 // main program
 (async () => {
+	//grab the page to parse
 	let myPage = await getPage(booksPage);
-	// console.log(myPage);
+	console.log(myPage);
 
-	console.log(parseHTML(myPage));
-
+	// pass the page the parsing function
+	const titles = parseHTML(myPage);
+	console.log(titles);
+	
+	// write to file
 })()
