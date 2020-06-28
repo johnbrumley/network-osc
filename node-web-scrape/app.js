@@ -56,5 +56,8 @@ const booksPage = 'http://books.toscrape.com/';
 // main program
 (async () => {
 	let myPage = await getPage(booksPage);
-	console.log(myPage);
+	// console.log(myPage);
+
+	console.log(parseHTML(myPage));
+
 })()

@@ -157,7 +157,7 @@ void buildGUI(){
   cp5.addSlider("sendRate")
      .setPosition(50,50)
      .setSize(50,300)
-     .setRange(200,2000)
+     .setRange(200,5000)
      .setValue(1000);
   slowLabel = cp5.addTextlabel("slow")
                     .setText("SLOW")
