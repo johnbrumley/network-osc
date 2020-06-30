@@ -58,7 +58,7 @@ const download = (url, destination) => {
     // have to click "not now"
     // let content = await page.content();
     // let $ = cheerio.load(content);
-    // // console.log($('button:contains("Not Now")').attr('class'));
+    // console.log($('button:contains("Not Now")').attr('class'));
     // await page.click('button.yWX7d'); // hard coded now, but might need to use Cheerio in future
     // await page.waitForNavigation();
 
@@ -106,6 +106,14 @@ const download = (url, destination) => {
 
     // loop through the locations
     let locations = [];
+
+    // save all the locations to a text file
+    let file = fs.createWriteStream('locations.txt');
+
+    file.on('error', error => { 
+        console.log("problem writing to file: " + error) 
+    });
+
     for(let i=0; i < anchors.length; i++){
         let anchor = anchors[i];
 
@@ -118,23 +126,22 @@ const download = (url, destination) => {
         let headers = $('header a');
 
         if(headers.length > 2 && $(headers[2]).attr('href').includes('/explore/locations')){
-            locations.push($(headers[2]).text());
+            let text = $(headers[2]).text();
+            locations.push(text);
+            file.write(text + '\n');
+            console.log(text)
         }
     }
 
-    console.log(locations);
-    // save all the locations to a text file
-    let file = fs.createWriteStream('locations.txt');
-
-    file.on('error', error => { 
-        console.log("problem writing to file: " + error) 
-    });
-
-    locations.forEach(loc => { 
-        file.write(loc + '\n'); 
-    });
-
     file.end();
+    // console.log(locations);
+    
+
+    // locations.forEach(loc => { 
+    //     file.write(loc + '\n'); 
+    // });
+
+    
 
     // close the browser when we're done
     await browser.close();
