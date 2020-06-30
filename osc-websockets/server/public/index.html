@@ -3,63 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>user location example</title>
+    <title>user location/sensor example</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="fulltilt.js"></script>
+    
 </head>
 <body>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io('http://localhost:5000');
-
-        socket.on('connect', function(){
-            console.log("socket connected as --> ", socket.id)
-        });
-
-        // if you want to receive updates from the server
-        // socket.on('chat', function(data){
-        //     console.log('new data --> ', data);
-
-        //     // send to local udp port
-        //     udpPort.send(data);
-        // });
-
-        socket.on('disconnect', function(){});
-
-        
-        // User Location
-        function success(position) {
-            const latitude  = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            // emit as osc msg
-            const osc = {
-                address: '/position',
-                args: [position.coords.latitude, position.coords.longitude]
-            };
-            
-            socket.emit('chat', osc);
-
-            console.log(latitude, longitude);
-        }
-
-        function error() {
-            console.log("couldn't get location");
-        }
-
-        const locationUpdateTime = 1000;
-
-        function locationLoop() {
-            navigator.geolocation.getCurrentPosition(success, error);
-            setTimeout(locationLoop, locationUpdateTime);
-        }
-
-        // try setting up location
-        if(!navigator.geolocation) {
-            status.textContent = 'Geolocation is not supported by your browser';
-        } else {
-            status.textContent = 'Locating…';
-            // start  the location loop
-            locationLoop();
-        }
-    </script>
+    <div>
+        <h1 id="x"></h1>
+        <h1 id="y"></h1>
+        <h1 id="z"></h1>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
