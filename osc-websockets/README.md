@@ -44,7 +44,7 @@ cd client
 node .\app.js --udpin=9888 --udpout=9889
 ```
 
-Use the ```--udpin``` and ```--udpout``` flags to specify the local UDP ports, default ports are 57121 and 57122. The default server address and port is ```http://localhost:5000```. Use ```--addr``` and ```--port``` to specify a different server and port. For example:
+Use the ```--udpin``` and ```--udpout``` flags to specify the local UDP ports, default ports are 4000 and 4001. The default server address and port is ```http://localhost:5000```. Use ```--addr``` and ```--port``` to specify a different server and port. For example:
 
 ```
 node .\app.js --addr http://my.website.com --port 5432 --udpin 3000 --udpout 3001

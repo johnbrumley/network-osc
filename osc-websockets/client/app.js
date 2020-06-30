@@ -1,10 +1,11 @@
 // get arguments
 const {argv} = require('yargs');
 // define upd ports
-const udplistenAddr = "127.0.0.1"; // localhost, 127.0.0.1
-const udpSendAddr = "127.0.0.1";
-const udpListenPort = (argv.udpin) ? argv.udpin : 57121;
-const udpSendPort = (argv.udpout) ? argv.udpout : 57122;
+const udplistenAddr = "0.0.0.0"; // localhost, 127.0.0.1
+const udpSendAddr = "0.0.0.0";
+const udpListenPort = (argv.udpin) ? argv.udpin : 4000;
+const udpSendPort = (argv.udpout) ? argv.udpout : 4001;
+
 // setup the remote address and ports
 const serverPort = (argv.port) ? argv.port : 5000;
 
