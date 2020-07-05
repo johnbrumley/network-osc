@@ -12,9 +12,11 @@ const serverPort = (argv.port) ? argv.port : 5000;
 // http://localhost:5678 , http://def.space:5000, http://192.168.1.101:5000
 const serverAddr = (argv.addr) ? `${argv.addr}:${serverPort}`  : `http://127.0.0.1:${serverPort}`;
 
+// console.log("connecting to", serverAddr);
+
 // import libraries (osc and socket io)
 const osc = require("osc");
-const socket = require('socket.io-client')(serverAddr);
+const socket = require('socket.io-client')(serverAddr); // need secure for https
 
 // WEBSOCKETs
 socket.on('connect', function(){
@@ -31,7 +33,7 @@ socket.on('disconnect', function(){})
 
 
 // UDP
-console.log('starting udp...');
+// console.log('starting udp...');
 
 let udpPort = new osc.UDPPort({
   localAddress: udplistenAddr,

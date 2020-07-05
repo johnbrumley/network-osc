@@ -105,3 +105,4 @@ dist
 
 # Extras
 imgs/
+*.pem
