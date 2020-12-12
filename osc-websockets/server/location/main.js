@@ -41,10 +41,10 @@ Things to try:
 
     
     // check for location support
-    if(!navigator.geolocation) {
-        status.textContent = 'Geolocation is not supported by your browser';
-    } else {
+    if('geolocation' in navigator) {
         status.textContent = 'Locating…';
+    } else {
+        status.textContent = 'Geolocation is not supported by your browser';
     }
 
     // check for orientation

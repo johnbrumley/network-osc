@@ -9,7 +9,11 @@ const udpSendPort = (argv.udpout) ? argv.udpout : 4001;
 
 // import libraries (osc and socket io)
 const osc = require("osc");
-const options = { secure:true, reconnect: true, rejectUnauthorized : false};
+const options = { 
+    secure:true, 
+    reconnect: true, 
+    rejectUnauthorized : false
+};
 const socket = require('socket.io-client')("https://def.space:8888", options);
 
 // WEBSOCKETs

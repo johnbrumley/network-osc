@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Test</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+</head>
+<body>
+    <h1>Location</h1>
+    <p>
+      latitude: <span id="lat">waiting...</span>&deg;<br />
+      longitude: <span id="lon">waiting...</span>&deg;
+    </p>
+
+
+    <label for="vegetable">enter your favorite vegetable</label>
+    <input id="vegetable" value="arugula" />
+
+    <button id="submit">submit</button>
+
+    <button id="hello">hello</button>
+
+
+    <script>
+
+        const socket = io('http://localhost:8888');
+
+        let pos;
+
+        socket.on('connect', function(){
+            console.log("socket connected as --> ", socket.id)
+        });
+
+        // if you want to receive updates from the server,,
+        socket.on('chat', data => {
+            console.log('new data --> ', data);
+        });
+
+        // socket.on('disconnect', function(){});
+
+        const displayCoords = (lat, lon) => {
+            document.getElementById('lat').textContent = lat;
+            document.getElementById('lon').textContent = lon;
+        }
+
+        const sendCoords = (lat, lon) => {
+            // send coord back to server
+            const coords = {
+                lat: lat, 
+                lon: lon
+            };
+
+            socket.emit('chat', coords);
+        }
+
+        // button section
+        const button = document.getElementById('submit');
+        button.addEventListener('click', async event => {
+            const vegetable = document.getElementById('vegetable').value;
+
+            let data = {veg: vegetable};
+
+            if(pos) {
+                data = {
+                    veg: vegetable,
+                    lat: pos.lat,
+                    lon: pos.lon
+                }
+            }
+            
+            socket.emit('chat', data);
+        });
+
+
+        // hello button
+        const helloButton = document.getElementById('hello');
+        helloButton.addEventListener('click', event => {
+            socket.emit('hello', 'hi');
+        })
+
+        // check for location support
+        if('geolocation' in navigator) {
+            console.log('Locating…');
+
+            // display the geolocation
+            navigator.geolocation.watchPosition(position => {
+                console.log(position);
+
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                pos = {lat: lat, lon: lon};
+
+                displayCoords(lat, lon);
+                sendCoords(lat, lon);
+
+            }, (error) => {
+                console.log(error);
+            });
+
+        } else {
+            console.log('Geolocation is not supported by your browser');
+        }
+
+
+        // // setup websocket
+        // // connect back to the server (using the default: 'window.location')
+        // const socket = io();
+
+        // socket.on('connect', function(){
+        //     console.log("socket connected as --> ", socket.id)
+        // });
+
+        // socket.on('disconnect', function(){});
+
+
+        // // check for location support
+        // if('geolocation' in navigator) {
+        //     status.textContent = 'Locating…';
+        // } else {
+        //     status.textContent = 'Geolocation is not supported by your browser';
+        // }
+
+
+        // // slower update to reduce network traffic, draw function might be OK for lower number of users
+        // function slowUpdate() {
+        //     // grab current location
+        //     if(navigator.geolocation) {
+        //         navigator.geolocation.getCurrentPosition(position => {
+        //             // pack as OSC message object (format that osc.js expects)
+        //             const osc = {
+        //                 address: '/position',
+        //                 args: [position.coords.latitude, position.coords.longitude]
+        //             };
+                    
+        //             socket.emit('chat', osc);
+        //         }, () => {
+        //             console.log("couldn't get location");
+        //         });
+        //     }
+
+        //     // reset the loop after the location update time in milliseconds
+        //     setTimeout(slowUpdate, slowUpdateTime);
+        // }
+
+        // // start slow update
+        // slowUpdate();
+
+        // })();
+
+
+    </script>
+</body>
+</html>
