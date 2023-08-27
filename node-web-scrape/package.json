@@ -9,10 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.1",
-    "cheerio": "^1.0.0-rc.3",
-    "dotenv": "^8.2.0",
-    "got": "^12.5.3",
-    "puppeteer": "^3.3.0"
+    "axios": "^1.5.0",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.3.1",
+    "got": "^13.0.0",
+    "puppeteer": "^21.1.0"
   }
 }
